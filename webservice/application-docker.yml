@@ -1,0 +1,64 @@
+project:
+  name: phoenix-enhancer-webservice
+  version: 0.1
+  description: Phoenix Enhancer web service
+
+info:
+  build:
+    artifact: ${project.artifactId}
+    name: ${project.name}
+    description: ${project.description}
+    version: ${project.version}
+
+spring:
+  profiles:
+    active: docker
+
+---
+
+spring:
+  profiles: docker
+spring.datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.31.216:9999/phoenix_enhancer
+    username: phoenix_enhancer
+    password: enhancer123
+    type: com.alibaba.druid.pool.DruidDataSource
+spring.http:
+    multipart:
+      max-file-size: 1000MB
+      max-request-size: 10000MB
+server:
+  port: 8070
+spring.jmx:
+   enabled: false
+ #no nned to enable security in production
+security:
+  basic:
+    enabled: false
+#management endpoints on a separate port
+management:
+  port: 8071
+  security:
+    enabled: false # management port is internal only. no need to secure it.
+#mail service for sending analysis report to users
+mail:
+  smtp:
+    auth: true
+    starttls.enable: true
+    host: smtp.gmail.com
+    port: 587
+  user: baimingze@gmail.com
+  password: qyixvxdremltcxqp
+  ccadd: baimingze@gmail.com
+logging:
+  level:
+    root: INFO
+    org:
+      springframework:
+        security: DEBUG
+      hibernate: DEBUG
+  file: logs/phoenix_ws.log
+
+
+
